@@ -1,0 +1,12 @@
+export { default as Homepage } from './homepage';
+export { default as FreeResources } from './free-resources';
+export { default as ParentResources } from './parent-resources';
+export { default as PremiumPrograms } from './premium-programs';
+export { default as ExamPreparation } from './exam-preparation';
+export { default as CourseCatalog } from './course-catalog';
+export { default as Contact } from './contact';
+export { default as Account } from './account';
+export { default as Checkout } from './checkout';
+export { default as PaymentConfirmation } from './payment-confirmation';
+export { default as Authentication } from './autentificare';
+export { default as NotFound } from './NotFound';

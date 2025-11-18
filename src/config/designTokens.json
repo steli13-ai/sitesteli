@@ -1,0 +1,11 @@
+{
+  "colors": {
+    "primary": "#1CA37B",
+    "secondary": "#20C997",
+    "accent": "#C7A7F5",
+    "light": "#E8FFF6",
+    "dark": "#06231C"
+  },
+  "radius": { "xl": "16px", "2xl": "24px" },
+  "font": { "heading": "Inter", "body": "Poppins" }
+}

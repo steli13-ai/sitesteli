@@ -1,0 +1,7 @@
+node_modules/
+build/
+dist/
+coverage/
+public/
+# Files with non-standard syntax for ESLint parser
+src/config/theme.js

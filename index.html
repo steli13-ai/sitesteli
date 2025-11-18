@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ro">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Mate cu succes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1CA37B" />
+  <meta name="application-name" content="Mate cu succes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="description" content="Platformă educațională modernă pentru matematică. Lecții, fișe, cursuri și pregătire pentru examene în limba română." />
+  <link rel="canonical" href="https://matecusucces.ro/" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Mate cu succes" />
+  <meta property="og:description" content="Platformă educațională modernă pentru matematică. Lecții, fișe, cursuri și pregătire pentru examene în limba română." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://matecusucces.ro/" />
+  <meta property="og:image" content="/assets/images/logo-512.png" />
+  <meta property="og:locale" content="ro_RO" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Mate cu succes" />
+  <meta name="twitter:description" content="Platformă educațională modernă pentru matematică." />
+  <meta name="twitter:image" content="/assets/images/logo-512.png" />
+  
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/logo-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/logo-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/logo-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/logo-512.png" />
+  <link rel="manifest" href="/manifest.json" />
+  
+  <!-- Preconnect to third-parties (kept minimal). -->
+    <!-- Removed Google Fonts and unused preconnects to avoid 3P calls/404s.
+      Fonts are now system/local via CSS with font-display: swap. -->
+  <!-- Optional: set this to your Supabase project domain for improved performance -->
+  <!-- <link rel="preconnect" href="https://YOUR-PROJECT.supabase.co" crossorigin /> -->
+  
+  <!-- Defer non-critical third-party scripts to idle time -->
+  <script>
+    (function loadNonCritical() {
+      var load = function () {
+        try {
+          var s1 = document.createElement('script');
+          s1.type = 'module';
+          s1.src = 'https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fmath4all5439back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9';
+          document.head.appendChild(s1);
+
+          var s2 = document.createElement('script');
+          s2.type = 'module';
+          s2.src = 'https://static.rocket.new/rocket-shot.js?v=0.0.1';
+          document.head.appendChild(s2);
+        } catch (e) {
+          // eslint-disable-next-line no-console
+          console.warn('Deferred script load failed', e);
+        }
+      };
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(load);
+      } else {
+        setTimeout(load, 200);
+      }
+    })();
+  </script>
+  </head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div class="dhiwise-code" id="root"></div>
+  <script type="module" src="/src/index.jsx"></script>
+</body>
+
+</html>

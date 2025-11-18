@@ -1,0 +1,469 @@
+/* Removed Google Fonts and custom @font-face to rely on fast, privacy-friendly
+   system font stacks across the app. Add self-hosted fonts later if desired. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+  /* Core Colors - updated to green/lavender palette */
+  --color-background: #E8FFF6; /* light mint */
+  --color-foreground: #06231C; /* deep teal/dark */
+    --color-border: #ECE2D0; /* light-cream */
+    --color-input: #FFFFFF; /* white */
+    --color-ring: #7350FF; /* purple-primary */
+    
+    /* Card Colors */
+    --color-card: #FFFFFF; /* white */
+    --color-card-foreground: #2D2D2D; /* dark-gray */
+    --color-popover: #FFFFFF; /* white */
+    --color-popover-foreground: #2D2D2D; /* dark-gray */
+    
+    /* Muted Colors */
+    --color-muted: #ECE2D0; /* light-cream */
+    --color-muted-foreground: #6B6B6B; /* medium-gray */
+    
+    /* Primary Colors */
+  --color-primary: #1CA37B; /* green primary */
+  --color-primary-foreground: #FFFFFF; /* white */
+    
+    /* Secondary Colors */
+  --color-secondary: #20C997; /* secondary green */
+  --color-secondary-foreground: #FFFFFF; /* white */
+    
+    /* Destructive Colors */
+    --color-destructive: #FF6857; /* coral-error */
+    --color-destructive-foreground: #FFFFFF; /* white */
+    
+    /* Accent Colors */
+  --color-accent: #C7A7F5; /* lavender accent */
+  --color-accent-foreground: #06231C; /* dark */
+    
+    /* Success Colors */
+  --color-success: #1CA37B; /* unify success with primary */
+  --color-success-foreground: #FFFFFF; /* white */
+    
+    /* Warning Colors */
+    --color-warning: #FFD401; /* yellow-warning */
+    --color-warning-foreground: #2D2D2D; /* dark-gray */
+    
+    /* Error Colors */
+    --color-error: #FF6857; /* coral-error */
+    --color-error-foreground: #FFFFFF; /* white */
+    
+    /* Additional Brand Colors */
+    --color-surface: #ECE2D0; /* light-cream */
+    --color-text-primary: #2D2D2D; /* dark-gray */
+    --color-text-secondary: #6B6B6B; /* medium-gray */
+  --color-trust: #20C997; /* use secondary as trust */
+  --color-trust-foreground: #06231C; /* dark */
+
+    /* Page-specific colors */
+    --color-homepage: #87CEEB; /* pastel blue */
+    --color-free-resources: #FFB6C1; /* pastel red */
+    --color-exam-preparation: #DDA0DD; /* pastel purple */
+    --color-course-catalog: #98FB98; /* pastel green */
+    --color-parent-resources: #F0E68C; /* pastel yellow */
+    --color-contact: #20B2AA; /* pastel teal */
+    --color-premium-programs: #FFA07A; /* pastel orange */
+  }
+
+  /* Dark mode overrides using Tailwind's class strategy */
+  .dark {
+    --color-background: #0F172A; /* slate-900 */
+    --color-foreground: #E2E8F0; /* slate-200 */
+    --color-border: #1F2937; /* slate-800 */
+    --color-input: #111827; /* slate-900 */
+    --color-ring: #22C55E; /* green-500 */
+    --color-card: #0B1220;
+    --color-card-foreground: #E2E8F0;
+    --color-popover: #0B1220;
+    --color-popover-foreground: #E2E8F0;
+    --color-muted: #111827;
+    --color-muted-foreground: #94A3B8;
+    --color-primary: #22C55E;
+    --color-primary-foreground: #0B1220;
+    --color-secondary: #2DD4BF;
+    --color-secondary-foreground: #0B1220;
+    --color-accent: #C084FC;
+    --color-accent-foreground: #0B1220;
+    --color-success: #22C55E;
+    --color-success-foreground: #0B1220;
+    --color-warning: #FBBF24;
+    --color-warning-foreground: #0B1220;
+    --color-error: #EF4444;
+    --color-error-foreground: #0B1220;
+    --color-surface: #0B1220;
+    --color-text-primary: #E2E8F0;
+    --color-text-secondary: #94A3B8;
+    --color-trust: #14B8A6;
+    --color-trust-foreground: #0B1220;
+  }
+
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    font-weight: 600;
+  }
+  
+  .font-headline {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  }
+  
+  .font-body {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  }
+  
+  .font-cta {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  }
+  
+  .font-accent {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  }
+}
+
+@layer components {
+  .warm-shadow {
+    box-shadow: 0 4px 20px rgba(115, 80, 255, 0.08);
+  }
+  
+  .warm-shadow-lg {
+    box-shadow: 0 8px 32px rgba(115, 80, 255, 0.15);
+  }
+  
+  .paper-texture {
+    background: linear-gradient(45deg, rgba(249,245,238,0.8), rgba(236,226,208,0.6));
+    backdrop-filter: blur(0.5px);
+  }
+  
+  .academic-glow {
+    filter: sepia(0.1) brightness(1.05);
+  }
+  
+  .confidence-hover {
+    transition: all 300ms ease-out;
+  }
+  
+  .confidence-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(115, 80, 255, 0.15);
+  }
+  
+  .gentle-transition {
+    transition: all 300ms ease-out;
+  }
+  
+  .celebration-bounce {
+    animation: celebrationBounce 0.6s ease-out;
+  }
+  
+  @keyframes celebrationBounce {
+    0%, 20%, 53%, 80%, 100% {
+      transform: translate3d(0, 0, 0);
+    }
+    40%, 43% {
+      transform: translate3d(0, -8px, 0);
+    }
+    70% {
+      transform: translate3d(0, -4px, 0);
+    }
+    90% {
+      transform: translate3d(0, -2px, 0);
+    }
+  }
+  
+  .math-symbol-float {
+    animation: mathFloat 15s linear infinite;
+  }
+  
+  @keyframes mathFloat {
+    0% {
+      transform: rotate(0deg) translateY(0px);
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.1;
+    }
+    100% {
+      transform: rotate(360deg) translateY(-10px);
+      opacity: 0.3;
+    }
+  }
+
+  /* New animations for page transitions and elements */
+  .animate-math-float-slow {
+    animation: mathFloatSlow 20s linear infinite;
+  }
+
+  .animate-math-float-slower {
+    animation: mathFloatSlower 25s linear infinite;
+  }
+
+  @keyframes mathFloatSlow {
+    0% {
+      transform: rotate(0deg) translateY(0px) scale(1);
+      opacity: 0.2;
+    }
+    50% {
+      opacity: 0.05;
+      transform: rotate(180deg) translateY(-15px) scale(1.1);
+    }
+    100% {
+      transform: rotate(360deg) translateY(-5px) scale(1);
+      opacity: 0.2;
+    }
+  }
+
+  @keyframes mathFloatSlower {
+    0% {
+      transform: rotate(0deg) translateX(0px) translateY(0px) scale(1);
+      opacity: 0.15;
+    }
+    25% {
+      transform: rotate(90deg) translateX(10px) translateY(-8px) scale(0.9);
+      opacity: 0.08;
+    }
+    50% {
+      transform: rotate(180deg) translateX(0px) translateY(-20px) scale(1.05);
+      opacity: 0.03;
+    }
+    75% {
+      transform: rotate(270deg) translateX(-10px) translateY(-8px) scale(0.95);
+      opacity: 0.08;
+    }
+    100% {
+      transform: rotate(360deg) translateX(0px) translateY(0px) scale(1);
+      opacity: 0.15;
+    }
+  }
+
+  /* Pastel background elements */
+  .pastel-shapes {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    animation: floatShape 8s ease-in-out infinite;
+  }
+
+  .floating-star {
+    position: absolute;
+    opacity: 0.15;
+    animation: floatStar 6s ease-in-out infinite;
+  }
+
+  .floating-cube {
+    position: absolute;
+    opacity: 0.1;
+    animation: floatCube 10s ease-in-out infinite;
+  }
+
+  @keyframes floatShape {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(180deg);
+    }
+  }
+
+  @keyframes floatStar {
+    0%, 100% {
+      transform: translateY(0px) scale(1) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-15px) scale(1.1) rotate(180deg);
+    }
+  }
+
+  @keyframes floatCube {
+    0%, 100% {
+      transform: translateY(0px) translateX(0px) rotate(0deg);
+    }
+    33% {
+      transform: translateY(-10px) translateX(5px) rotate(120deg);
+    }
+    66% {
+      transform: translateY(-5px) translateX(-5px) rotate(240deg);
+    }
+  }
+
+  /* Page transition animations */
+  .page-transition-enter {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+
+  .page-transition-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 600ms ease-out, transform 600ms ease-out;
+  }
+
+  .page-transition-exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .page-transition-exit-active {
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: opacity 600ms ease-out, transform 600ms ease-out;
+  }
+
+  /* Site name animation */
+  .site-name-flip {
+    animation: siteNameFlip 1.5s ease-in-out;
+  }
+
+  @keyframes siteNameFlip {
+    0% {
+      transform: rotateY(0deg);
+    }
+    25% {
+      transform: rotateY(90deg);
+    }
+    75% {
+      transform: rotateY(270deg);
+    }
+    100% {
+      transform: rotateY(360deg);
+    }
+  }
+
+  /* Page-specific hover colors */
+  .hover-acasa:hover {
+    background-color: var(--color-homepage);
+    color: white;
+  }
+
+  .hover-resurse-gratuite:hover {
+    background-color: var(--color-free-resources);
+    color: white;
+  }
+
+  .hover-pregatire-examene:hover {
+    background-color: var(--color-exam-preparation);
+    color: white;
+  }
+
+  .hover-catalog-cursuri:hover {
+    background-color: var(--color-course-catalog);
+    color: white;
+  }
+
+  .hover-resurse-parinti:hover {
+    background-color: var(--color-parent-resources);
+    color: white;
+  }
+
+  .hover-contact:hover {
+    background-color: var(--color-contact);
+    color: white;
+  }
+
+  .hover-programe-premium:hover {
+    background-color: var(--color-premium-programs);
+    color: white;
+  }
+
+  /* Animated moving element for page transitions */
+  .page-transition-element {
+    position: fixed;
+    top: 50%;
+    left: -100px;
+    width: 60px;
+    height: 60px;
+    z-index: 9999;
+    pointer-events: none;
+    animation: moveAcrossScreen 1.2s ease-in-out;
+  }
+
+  @keyframes moveAcrossScreen {
+    0% {
+      left: -100px;
+      transform: translateY(-50%) rotate(0deg) scale(0);
+    }
+    50% {
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%) rotate(180deg) scale(1);
+    }
+    100% {
+      left: calc(100% + 100px);
+      transform: translateY(-50%) rotate(360deg) scale(0);
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Page-specific intro text colors */
+  .text-acasa-blue {
+    color: var(--color-homepage);
+  }
+
+  .text-resurse-red {
+    color: var(--color-free-resources);
+  }
+
+  .text-examene-purple {
+    color: var(--color-exam-preparation);
+  }
+
+  .text-cursuri-green {
+    color: var(--color-course-catalog);
+  }
+
+  .text-parinti-yellow {
+    color: var(--color-parent-resources);
+  }
+
+  .text-contact-teal {
+    color: var(--color-contact);
+  }
+
+  .text-premium-orange {
+    color: var(--color-premium-programs);
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .confidence-hover:hover {
+      transform: none;
+    }
+    
+    .math-symbol-float,
+    .animate-math-float-slow,
+    .animate-math-float-slower,
+    .floating-shape,
+    .floating-star,
+    .floating-cube,
+    .site-name-flip,
+    .page-transition-element {
+      animation: none;
+    }
+    
+    .celebration-bounce {
+      animation: none;
+    }
+  }
+}

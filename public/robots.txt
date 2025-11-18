@@ -1,0 +1,7 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Disallow: /checkout
+Disallow: /confirmare-plata
+
+# Update with your production URL
+Sitemap: https://matecusucces.ro/sitemap.xml
