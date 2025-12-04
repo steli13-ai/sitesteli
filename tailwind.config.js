@@ -2,7 +2,9 @@
 export default {
   darkMode: ["class"],
   content: [
-    './src/**/*.{js,jsx}',
+    './index.html',
+    './public/**/*.html',
+    './src/**/*.{js,jsx,ts,tsx}',
   ],
   // Safelist dynamic classes built at runtime (e.g., bg-${color}) so Tailwind
   // doesn't purge them. These are used in homepage cards and course badges.

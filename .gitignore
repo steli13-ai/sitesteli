@@ -9,3 +9,5 @@ vite.config.*s.*
 
 # Local Netlify folder
 .netlify
+
+.vercel
