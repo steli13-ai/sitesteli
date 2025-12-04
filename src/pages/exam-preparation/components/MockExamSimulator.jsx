@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Icon from '../../../components/AppIcon';
 import Button from '../../../components/ui/Button';
 
 const MockExamSimulator = ({ examType, questions, timeLimit, onComplete, className = '' }) => {
+  const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
   const [timeRemaining, setTimeRemaining] = useState(timeLimit * 60); // Convert to seconds
@@ -30,10 +32,8 @@ const MockExamSimulator = ({ examType, questions, timeLimit, onComplete, classNa
   };
 
   const handleStartExam = () => {
-    setIsActive(true);
-    setCurrentQuestion(0);
-    setAnswers({});
-    setShowResults(false);
+    // Redirect to new simulation page with selection + upload
+    navigate('/simulare-examen');
   };
 
   const handleAnswerSelect = (questionId, answer) => {

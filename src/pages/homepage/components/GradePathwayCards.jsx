@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MotionWrapper } from '@/lib/motionLazy';
 import Icon from '../../../components/AppIcon';
 import Button from '../../../components/ui/Button';
+import Image from '../../../components/AppImage';
 import { homepagePremiumPrograms } from '../../../content/premiumPrograms';
 import { triggerConfetti } from '@/utils/confetti';
 
@@ -80,22 +81,7 @@ const GradePathwayCards = () => {
               viewport={{ once: true }}
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
-            {[...gradePathways,
-              // New option card: counseling
-              {
-                id: 'counseling',
-                title: 'De vorbit cu consilieri școlari sau cu studenți',
-                subtitle: 'fără obligații',
-                description: 'Discută 15 minute cu un consilier sau student mentor și află ce ți se potrivește.',
-                color: 'success',
-                bgGradient: 'from-success/10 to-success/5',
-                borderColor: 'border-success/20',
-                icon: 'BookOpen',
-                topics: ['Orientare rapidă', 'Recomandări personalizate', 'Plan de învățare'],
-                estimatedTime: '15 minute',
-                link: '/consiliere'
-              }
-            ]?.map((pathway) => (
+            {gradePathways?.map((pathway) => (
               <mod.motion.div
                 key={pathway?.id}
                 variants={cardVariants}
@@ -184,6 +170,36 @@ const GradePathwayCards = () => {
           )}
           </MotionWrapper>
 
+          {/* Counseling CTA separated from program cards */}
+          <div className="mt-20">
+            <div className="max-w-4xl mx-auto text-center mb-8">
+              <h3 className="text-3xl font-headline font-bold text-foreground mb-4">
+                Discută direct cu un consilier sau student mentor
+              </h3>
+              <p className="text-text-secondary font-body max-w-2xl mx-auto">
+                În 15 minute primești recomandări personalizate despre ce program ți se potrivește cel mai bine – gratuit, fără obligații.
+              </p>
+            </div>
+            <div className="flex flex-col items-center gap-4">
+              <ul className="flex flex-wrap justify-center gap-2 text-sm text-text-secondary">
+                <li className="bg-muted px-3 py-1 rounded-md">Orientare rapidă</li>
+                <li className="bg-muted px-3 py-1 rounded-md">Recomandări personalizate</li>
+                <li className="bg-muted px-3 py-1 rounded-md">Plan de învățare</li>
+              </ul>
+              <Button
+                asChild
+                variant="default"
+                size="lg"
+                className="font-cta font-semibold bg-success text-success-foreground hover:bg-success/90 mt-2"
+                iconName="MessageCircle"
+                iconPosition="right"
+              >
+                <Link to="/consiliere">Programează o discuție (15 min)</Link>
+              </Button>
+              <p className="text-xs text-text-secondary">fără obligații • răspuns rapid</p>
+            </div>
+          </div>
+
           {/* Bottom CTA */}
           <MotionWrapper fallback={<div className="text-center mt-16" />}> {(mod) => (
           <mod.motion.div
@@ -195,13 +211,14 @@ const GradePathwayCards = () => {
             >
             <div className="bg-card rounded-2xl p-8 warm-shadow">
               <div className="grid md:grid-cols-3 gap-6 items-center">
-                {/* Test paper image */}
+                {/* Test paper image with fallback */}
                 <div className="md:col-span-1">
-                  <img
-                    src="https://images.unsplash.com/photo-1518133835875-2ed246d1f7e2"
-                    alt="Foaie de test cu creion și calcule matematice"
+                  <Image
+                    src="/assets/images/logo-512.png"
+                    alt="Test de orientare matematică"
                     className="w-full h-40 object-cover rounded-xl shadow-sm"
                     loading="lazy"
+                    referrerPolicy="no-referrer"
                   />
                 </div>
                 <div className="md:col-span-2 text-left md:text-left">

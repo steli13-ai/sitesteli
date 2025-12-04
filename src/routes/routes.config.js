@@ -14,6 +14,8 @@ export const routesConfig = [
   { path: '/test-orientare', layout: 'default', loader: () => import(/* webpackChunkName: "test-orientare" */ '@/pages/test-orientare') },
   { path: '/consiliere', layout: 'default', loader: () => import(/* webpackChunkName: "consiliere" */ '@/pages/consiliere') },
   { path: '/exam-preparation', layout: 'default', loader: () => import(/* webpackChunkName: "exam-preparation" */ '@/pages/exam-preparation') },
+  // Exam simulation with year selection & upload
+  { path: '/simulare-examen', layout: 'default', loader: () => import(/* webpackChunkName: "simulare-examen" */ '@/pages/simulare-examen') },
   // Parent support contact form
   { path: '/suport-parinti', layout: 'default', loader: () => import(/* webpackChunkName: "suport-parinti" */ '@/pages/suport-parinti') },
   // Donations

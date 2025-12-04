@@ -14,7 +14,11 @@ describe('ErrorBoundary', () => {
         <Boom />
       </ErrorBoundary>
     );
-    expect(screen.getByText(/Something went wrong/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Back/i })).toBeInTheDocument();
+    // Accept localized heading (RO) or EN fallback
+    const heading = screen.queryByText(/A apărut o eroare/i) || screen.queryByText(/Something went wrong/i);
+    expect(heading).toBeInTheDocument();
+    // Back button localized label
+    const backBtn = screen.getByRole('button', { name: /Înapoi|Back/i });
+    expect(backBtn).toBeInTheDocument();
   });
 });

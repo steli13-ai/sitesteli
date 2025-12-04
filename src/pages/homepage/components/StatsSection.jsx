@@ -18,6 +18,18 @@ function useCountUp(target = 0, duration = 1200) {
   return value;
 }
 
+// Small component wrapper so hooks are not called inside MotionWrapper's
+// render-prop function. This prevents the "Rendered more hooks" error.
+function CountUpValue({ target = 0, duration = 1200, suffix = '' }) {
+  const v = useCountUp(target, duration);
+  return (
+    <span>
+      {v.toLocaleString()}
+      <span>{suffix}</span>
+    </span>
+  );
+}
+
 const StatsSection = () => {
   const stats = [
     {
@@ -162,7 +174,7 @@ const StatsSection = () => {
                     className={`text-4xl md:text-5xl font-headline font-bold text-${stat?.color} mb-2`}
                   >
                     {typeof stat?.count === 'number' ? (
-                      <span>{useCountUp(stat.count, 1200 + idx * 200).toLocaleString()}<span>{stat?.suffix || ''}</span></span>
+                      <CountUpValue target={stat.count} duration={1200 + idx * 200} suffix={stat?.suffix || ''} />
                     ) : (
                       stat?.number
                     )}

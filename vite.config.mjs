@@ -1,10 +1,13 @@
 import { defineConfig } from "vite";
+import { fileURLToPath } from 'node:url';
+import { dirname, resolve as pathResolve } from 'node:path';
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 import tagger from "@dhiwise/component-tagger";
 import { VitePWA } from 'vite-plugin-pwa';
 import viteCompression from 'vite-plugin-compression';
 import { visualizer } from 'rollup-plugin-visualizer';
+import criticalCssInline from './scripts/vite-critical-css.js';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -31,9 +34,13 @@ export default defineConfig({
   plugins: [
     tsconfigPaths(),
     react(),
+    // Inline a slice of critical CSS into build/index.html to improve FCP/LCP
+    criticalCssInline({ outDir: 'build', maxInlineBytes: 8192 }),
     viteCompression({ algorithm: 'gzip' }),
     viteCompression({ algorithm: 'brotliCompress', ext: '.br' }),
-    ...(process.env.NODE_ENV !== 'production' ? [tagger()] : []),
+    // Enable the Dhiwise tagger only when explicitly requested.
+    // It adds debug circles/overlays that can distort the UI in dev.
+    ...(process.env.VITE_TAGGER === '1' ? [tagger()] : []),
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
@@ -68,13 +75,14 @@ export default defineConfig({
         clientsClaim: true,
         cleanupOutdatedCaches: true,
         navigateFallback: '/offline.html',
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}'],
         runtimeCaching: [
           {
             urlPattern: ({ request }) => request.destination === 'document',
-            handler: 'NetworkFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'html-cache',
+              expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 },
             },
           },
           {
@@ -82,6 +90,7 @@ export default defineConfig({
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'asset-cache',
+              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 7 },
             },
           },
           {
@@ -93,6 +102,7 @@ export default defineConfig({
                 maxEntries: 100,
                 maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
               },
+              cacheableResponse: { statuses: [0, 200] },
             },
           },
         ],
@@ -110,6 +120,11 @@ export default defineConfig({
         brotliSize: true,
       }),
   ],
+  resolve: {
+    alias: {
+      '@': pathResolve(dirname(fileURLToPath(import.meta.url)), 'src'),
+    },
+  },
   test: {
     environment: 'jsdom',
     globals: true,

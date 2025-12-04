@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "home": "Acasă",
+    "freeResources": "Resurse Gratuite",
+    "examPreparation": "Pregătire Examene",
+    "courseCatalog": "Catalog Cursuri",
+    "parentResources": "Resurse Părinți",
+    "contact": "Contact",
+    "premiumPrograms": "Programe Premium"
+  },
+  "actions": {
+    "toggleLight": "Comută pe mod luminos",
+    "toggleDark": "Comută pe mod întunecat",
+    "login": "Conectare",
+    "startFree": "Începe Gratuit"
+  }
+}

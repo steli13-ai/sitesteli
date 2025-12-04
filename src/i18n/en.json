@@ -1,0 +1,17 @@
+{
+  "nav": {
+    "home": "Home",
+    "freeResources": "Free Resources",
+    "examPreparation": "Exam Preparation",
+    "courseCatalog": "Course Catalog",
+    "parentResources": "Parent Resources",
+    "contact": "Contact",
+    "premiumPrograms": "Premium Programs"
+  },
+  "actions": {
+    "toggleLight": "Switch to light mode",
+    "toggleDark": "Switch to dark mode",
+    "login": "Log in",
+    "startFree": "Start Free"
+  }
+}

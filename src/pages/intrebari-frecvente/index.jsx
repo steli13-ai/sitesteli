@@ -82,6 +82,17 @@ export default function FAQPage() {
         <title>Întrebări Frecvente | Mate cu Succes</title>
         <meta name="description" content="Răspunsuri la cele mai frecvente întrebări despre cont, plăți, cursuri și suport tehnic în platforma Mate cu Succes." />
         <link rel="canonical" href="https://matecusucces.ro/intrebari-frecvente" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqs.flatMap(cat => cat.items.map(it => ({
+              '@type': 'Question',
+              name: it.q,
+              acceptedAnswer: { '@type': 'Answer', text: it.a }
+            })))
+          })}
+        </script>
       </Helmet>
 
       <PageHero

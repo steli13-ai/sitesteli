@@ -1,12 +1,36 @@
 import React, { Suspense } from "react";
+import OfflineBanner from '@/components/ui/OfflineBanner';
 const LazyAppRoutes = React.lazy(() => import('./AppRoutes'));
 
 // A lightweight, contentful shell so Lighthouse records FCP even if chunks load slowly.
+// Uses inline styles to avoid dependency on CSS bundle loading.
 function InitialShell() {
   return (
-    <div id="app-shell" className="min-h-screen flex flex-col items-center justify-center p-6">
-      <h1 className="text-2xl font-bold text-primary" role="status">Se încarcă Mate cu Succes…</h1>
-      <p className="mt-2 text-text-secondary max-w-md text-center">
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '24px',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      backgroundColor: '#f0fdf4'
+    }}>
+      <h1 style={{
+        fontSize: '24px',
+        fontWeight: 'bold',
+        color: '#1CA37B',
+        marginBottom: '8px'
+      }} role="status">
+        Se încarcă Mate cu Succes…
+      </h1>
+      <p style={{
+        marginTop: '8px',
+        color: '#6b7280',
+        maxWidth: '500px',
+        textAlign: 'center',
+        fontSize: '14px'
+      }}>
         Încărcăm interfața și resursele principale. Dacă această pagină rămâne prea mult timp, reîncarcă.
       </p>
     </div>
@@ -15,9 +39,12 @@ function InitialShell() {
 
 function App() {
   return (
-    <Suspense fallback={<InitialShell />}> 
-      <LazyAppRoutes />
-    </Suspense>
+    <>
+      <OfflineBanner />
+      <Suspense fallback={<InitialShell />}> 
+        <LazyAppRoutes />
+      </Suspense>
+    </>
   );
 }
 

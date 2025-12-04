@@ -9,6 +9,8 @@ const TestimonialCarousel = React.lazy(() => import('./components/TestimonialCar
 const StatsSection = React.lazy(() => import('./components/StatsSection'));
 const CTASection = React.lazy(() => import('./components/CTASection'));
 import { LOGO_URL } from '@/config/publicLinks';
+import StructuredData from '@/components/StructuredData';
+import { buildOrganization, buildWebSite, buildCourse } from '@/utils/structuredData';
 
 const Homepage = () => {
   useEffect(() => {
@@ -34,6 +36,12 @@ const Homepage = () => {
         <meta name="language" content="ro" />
         <meta name="geo.region" content="RO" />
         <meta name="geo.country" content="Romania" />
+        <StructuredData data={buildOrganization({})} />
+        <StructuredData data={buildWebSite({})} />
+        <StructuredData data={buildCourse({
+          name: 'Matematică Bacalaureat – Pregătire intensivă',
+          description: 'Program structurat pentru pregătirea examenului de Bacalaureat la matematică: simulări, planuri de studiu și feedback.',
+        })} />
       </Helmet>
       <div className="min-h-screen bg-background relative">
         {/* Pastel background elements */}

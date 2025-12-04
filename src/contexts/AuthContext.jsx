@@ -172,6 +172,18 @@ export const AuthProvider = ({ children }) => {
       if (error) {
         logger.warn('Session revalidation error:', error);
       }
+      // Attempt token refresh if near expiry
+      const exp = data?.session?.expires_at;
+      const now = Math.floor(Date.now() / 1000);
+      if (exp && exp - now < 60) {
+        try {
+          await supabase?.auth?.refreshSession();
+          const post = await supabase?.auth?.getSession();
+          return { data: post?.data, error: post?.error };
+        } catch (rfErr) {
+          logger.warn('Token refresh attempt failed:', rfErr);
+        }
+      }
       return { data, error };
     } catch (e) {
       logger.error('Session revalidation unexpected error:', e);
@@ -190,6 +202,15 @@ export const AuthProvider = ({ children }) => {
     updateProfile,
     isAuthenticated: !!user,
     revalidateSession,
+    // Unified 401 recovery helper for consumers
+    handleUnauthorized: async () => {
+      try {
+        const { data } = await supabase?.auth?.getSession();
+        if (!data?.session) return false;
+        const refreshed = await supabase?.auth?.refreshSession();
+        return !refreshed?.error;
+      } catch { return false; }
+    },
   }), [user, userProfile, loading, profileLoading]);
 
   return (

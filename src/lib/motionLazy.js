@@ -23,5 +23,14 @@ export function useMotion() {
 export function MotionWrapper({ children, fallback = null }) {
   const mod = useMotion();
   if (!mod) return fallback;
-  return children(mod);
+  // Be tolerant to whitespace/newlines that make children an array.
+  let renderer = children;
+  if (Array.isArray(renderer)) {
+    renderer = renderer.find((c) => typeof c === 'function') ?? renderer[0];
+  }
+  if (typeof renderer === 'function') {
+    return renderer(mod);
+  }
+  // If a function child isn't provided, just render the children as-is.
+  return renderer ?? null;
 }

@@ -175,8 +175,8 @@ const CTASection = () => {
               <div className="flex items-center">
                 <div className="flex -space-x-2">
                   <img
-                    src="https://images.unsplash.com/photo-1568743296270-9cc798164b3b"
-                    alt="Happy student with brown hair smiling at camera"
+                    src="https://images.unsplash.com/photo-1568743296270-9cc798164b3b?w=80&h=80&fit=crop&auto=format&q=60"
+                    alt=""
                     className="w-10 h-10 rounded-full border-2 border-white object-cover"
                     width="40"
                     height="40"
@@ -184,8 +184,8 @@ const CTASection = () => {
                     loading="lazy" />
 
                   <img
-                    src="https://images.unsplash.com/photo-1595653819970-33d3338dcb03"
-                    alt="Young male student with short dark hair in casual shirt"
+                    src="https://images.unsplash.com/photo-1595653819970-33d3338dcb03?w=80&h=80&fit=crop&auto=format&q=60"
+                    alt=""
                     className="w-10 h-10 rounded-full border-2 border-white object-cover"
                     width="40"
                     height="40"
@@ -193,8 +193,8 @@ const CTASection = () => {
                     loading="lazy" />
 
                   <img
-                    src="https://images.unsplash.com/flagged/photo-1556845694-824a68654417"
-                    alt="Teenage boy with brown hair wearing school uniform smiling"
+                    src="https://images.unsplash.com/flagged/photo-1556845694-824a68654417?w=80&h=80&fit=crop&auto=format&q=60"
+                    alt=""
                     className="w-10 h-10 rounded-full border-2 border-white object-cover"
                     width="40"
                     height="40"
@@ -202,8 +202,8 @@ const CTASection = () => {
                     loading="lazy" />
 
                   <img
-                    src="https://images.unsplash.com/flagged/photo-1572863048049-72e630660b0d"
-                    alt="Young woman with blonde hair smiling warmly at camera"
+                    src="https://images.unsplash.com/flagged/photo-1572863048049-72e630660b0d?w=80&h=80&fit=crop&auto=format&q=60"
+                    alt=""
                     className="w-10 h-10 rounded-full border-2 border-white object-cover"
                     width="40"
                     height="40"

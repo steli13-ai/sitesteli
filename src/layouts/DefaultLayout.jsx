@@ -22,26 +22,15 @@ const DefaultLayout = memo(function DefaultLayout({ children }) {
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Mate cu Succes" />
         <meta name="twitter:card" content="summary_large_image" />
-        {supabaseOrigin && (
-          <>
-            <link rel="dns-prefetch" href={supabaseOrigin} />
-            <link rel="preconnect" href={supabaseOrigin} crossOrigin="anonymous" />
-          </>
-        )}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Organization',
-            name: 'Mate cu Succes',
-            url: 'https://matecusucces.ro',
-            logo: 'https://matecusucces.ro/assets/images/logo-512.png'
-          })}
-        </script>
+        {/* Temporarily simplified Helmet to avoid Symbol-to-string error; we'll restore after root cause is clear. */}
       </Helmet>
-  <Header />
+  <Header role="banner" />
   <SubscribePopup />
   <RoutePrefetcher />
-      <main className="pt-16">{children}</main>
+      <main className="pt-16" role="main" id="main-content" tabIndex={-1}>{children}</main>
+      <footer role="contentinfo" className="mt-12" aria-label="Informații site">
+        {/* Footer is provided by Header component or elsewhere; this acts as a landmark placeholder. */}
+      </footer>
       <Toaster position="top-right" toastOptions={{ duration: 4000 }} />
     </div>
   );

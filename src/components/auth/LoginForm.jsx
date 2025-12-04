@@ -48,7 +48,7 @@ const LoginForm = ({ onClose, onSwitchToSignup, embedded = false, onSuccess }) =
       const { data, error } = await signIn(formData?.email, formData?.password);
       
       if (error) {
-        console.error('Login error details:', error);
+        import('@/utils/logger').then(m => m.logger.error('Login error details', error));
         
         // Enhanced error handling with more specific messages
         if (error?.message?.includes('Invalid login credentials')) {
@@ -93,7 +93,7 @@ const LoginForm = ({ onClose, onSwitchToSignup, embedded = false, onSuccess }) =
       }, 500);
       
     } catch (error) {
-      console.error('Unexpected login error:', error);
+      import('@/utils/logger').then(m => m.logger.error('Unexpected login error', error));
       setErrors({ general: 'A apărut o eroare neașteptată. Te rugăm să încerci din nou.' });
       toast?.error('Eroare la conectare. Încearcă din nou.', {
         icon: '❌',
@@ -117,7 +117,7 @@ const LoginForm = ({ onClose, onSwitchToSignup, embedded = false, onSuccess }) =
       });
 
       if (error) {
-        console.error('Google login error:', error);
+        import('@/utils/logger').then(m => m.logger.error('Google login error', error));
         if (error?.message?.includes('Failed to fetch')) {
           setErrors({ general: 'Nu se poate conecta la serviciul de autentificare Google. Verifică conexiunea la internet.' });
         } else {
@@ -125,7 +125,7 @@ const LoginForm = ({ onClose, onSwitchToSignup, embedded = false, onSuccess }) =
         }
       }
     } catch (error) {
-      console.error('Google login unexpected error:', error);
+      import('@/utils/logger').then(m => m.logger.error('Google login unexpected error', error));
       setErrors({ general: 'A apărut o eroare la conectarea cu Google. Încearcă din nou.' });
     }
     

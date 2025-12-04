@@ -2,6 +2,8 @@
   command = "npm run build"
   publish = "build"
 
+# Web Vitals endpoint (handled by vitals function via path-based config)
+
 # SPA fallback so client-side routes work on hard refresh
 [[redirects]]
   from = "/*"
@@ -33,13 +35,20 @@
     cache-control = "public, max-age=86400"
 
   # --- Security & Performance Headers ---
-  [[headers]]
-    for = "/*"
-    [headers.values]
-      X-Content-Type-Options = "nosniff"
-      X-Frame-Options = "DENY"
-      Referrer-Policy = "strict-origin-when-cross-origin"
-      X-XSS-Protection = "0"
-      Permissions-Policy = "geolocation=(), microphone=(), camera=(), usb=(), payment=(self)"
-      Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-      Content-Security-Policy = "default-src 'self'; script-src 'self' https://static.rocket.new; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://*.supabase.co https://static.rocket.new; frame-ancestors 'none'; object-src 'none'; base-uri 'self';"
+[[headers]]
+  for = "/"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"

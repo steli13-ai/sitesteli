@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import NetopiaCheckout from '../../components/payment/NetopiaCheckout';
@@ -6,6 +7,8 @@ import ProgramHero from './components/ProgramHero';
 import ProtectedButton from '../../components/ProtectedButton';
 import Icon from '../../components/AppIcon';
 import { homepagePremiumPrograms as programs } from '../../content/premiumPrograms';
+import StructuredData from '@/components/StructuredData';
+import { buildOrganization, buildItemList, buildCourse, buildOffer } from '@/utils/structuredData';
 
 
 import ComparisonTable from './components/ComparisonTable';
@@ -39,6 +42,22 @@ const PremiumPrograms = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Helmet>
+        <title>Programe Premium Matematică – Planuri & Beneficii | Mate cu Succes</title>
+        <meta name="description" content="Descoperă programele premium de matematică pentru progres accelerat: planuri structurate, feedback și resurse avansate adaptate nivelului tău." />
+        <link rel="canonical" href="https://matecusucces.ro/premium-programs" />
+        <meta property="og:title" content="Programe Premium Matematică – Mate cu Succes" />
+        <meta property="og:description" content="Planuri structurate, beneficii exclusive și progres monitorizat la matematică." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://matecusucces.ro/premium-programs" />
+        <StructuredData data={buildOrganization({})} />
+        <StructuredData data={buildItemList({
+          items: programs?.map((p) => ({
+            ...buildCourse({ name: p.title, description: p.description?.slice(0, 160) }),
+            offers: buildOffer({ name: p.title, price: p.price, url: `https://matecusucces.ro/premium-programs?plan=${encodeURIComponent(p.type)}` })
+          }))
+        })} />
+      </Helmet>
   {/* Header provided by layout */}
       {/* Hero Section */}
       <ProgramHero />

@@ -15,6 +15,8 @@ import CourseListView from './components/CourseListView';
 import RecommendedCourses from './components/RecommendedCourses';
 import CourseStats from './components/CourseStats';
 import { DEMO_VIDEO_URL } from '../../config/publicLinks';
+import StructuredData from '@/components/StructuredData';
+import { buildOrganization, buildItemList, buildCourse } from '@/utils/structuredData';
 
 const CourseCatalog = () => {
   const navigate = useNavigate();
@@ -648,27 +650,11 @@ const CourseCatalog = () => {
         <meta property="og:description" content="Alege cursul perfect pentru obiectivul tău: peste 100 de lecții structurate și simulări de examen." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://matecusucces.ro/course-catalog" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'ItemList',
-            name: 'Catalog cursuri matematică',
-            description: 'Lista cursurilor disponibile pe platforma Mate cu Succes',
-            url: 'https://matecusucces.ro/course-catalog',
-            itemListElement: (mockCourses || []).map((c, idx) => ({
-              '@type': 'Course',
-              position: idx + 1,
-              name: c.title,
-              description: c.description,
-              provider: {
-                '@type': 'Organization',
-                name: 'Mate cu Succes',
-                url: 'https://matecusucces.ro'
-              }
-            }))
-          })}
-        </script>
       </Helmet>
+      <StructuredData data={buildOrganization({})} />
+      <StructuredData data={buildItemList({
+        items: (mockCourses || []).map(c => buildCourse({ name: c.title, description: c.description }))
+      })} />
       <div className="min-h-screen bg-background">
   {/* Header provided by layout */}
         

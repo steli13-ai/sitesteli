@@ -1,11 +1,12 @@
 import React from "react";
+import { logger } from '@/utils/logger';
 import Icon from "./AppIcon";
 // Sentry capture will be wired via window.__COMPONENT_ERROR__ in monitoring.js
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, error: null, errorInfo: null };
   }
 
   static getDerivedStateFromError(error) {
@@ -15,7 +16,8 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     error.__ErrorBoundary = true;
     try { window.__COMPONENT_ERROR__?.(error, errorInfo); } catch {}
-    // console.log("Error caught by ErrorBoundary:", error, errorInfo);
+    logger.error('ErrorBoundary caught error', error, errorInfo);
+    this.setState({ error, errorInfo });
   }
 
   render() {
@@ -23,7 +25,7 @@ class ErrorBoundary extends React.Component {
       return (
         <div className="min-h-screen flex items-center justify-center bg-neutral-50">
           <div className="text-center p-8 max-w-md">
-            <div className="flex justify-center items-center mb-2">
+            <div className="flex justify-center items-center mb-2" role="img" aria-label="Error">
               <svg xmlns="http://www.w3.org/2000/svg" width="42px" height="42px" viewBox="0 0 32 33" fill="none">
                 <path d="M16 28.5C22.6274 28.5 28 23.1274 28 16.5C28 9.87258 22.6274 4.5 16 4.5C9.37258 4.5 4 9.87258 4 16.5C4 23.1274 9.37258 28.5 16 28.5Z" stroke="#343330" strokeWidth="2" strokeMiterlimit="10" />
                 <path d="M11.5 15.5C12.3284 15.5 13 14.8284 13 14C13 13.1716 12.3284 12.5 11.5 12.5C10.6716 12.5 10 13.1716 10 14C10 14.8284 10.6716 15.5 11.5 15.5Z" fill="#343330" />
@@ -32,7 +34,7 @@ class ErrorBoundary extends React.Component {
               </svg>
             </div>
             <div className="flex flex-col gap-1 text-center">
-              <h1 className="text-2xl font-medium text-neutral-800">Something went wrong</h1>
+              <h1 className="text-2xl font-medium text-neutral-800">A apărut o eroare</h1>
               <p className="text-neutral-600 text-base w w-8/12 mx-auto">We encountered an unexpected error while processing your request.</p>
             </div>
             <div className="flex justify-center items-center mt-6">
@@ -40,12 +42,22 @@ class ErrorBoundary extends React.Component {
                 onClick={() => {
                   window.location.href = "/";
                 }}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded flex items-center gap-2 transition-colors duration-200 shadow-sm"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded flex items-center gap-2 transition-colors duration-200 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                aria-label="Înapoi la pagina principală"
               >
                 <Icon name="ArrowLeft" size={18} color="#fff" />
-                Back
+                Înapoi
               </button>
             </div>
+            {import.meta.env?.DEV && this.state.error && (
+              <div className="mt-6 text-left bg-red-50 border border-red-200 rounded p-4 text-xs text-red-800 overflow-auto max-h-64">
+                <p className="font-semibold mb-2">Detalii eroare (vizibil doar în development):</p>
+                <pre className="whitespace-pre-wrap">{String(this.state.error?.message || this.state.error)}</pre>
+                {this.state.errorInfo?.componentStack && (
+                  <pre className="mt-2 whitespace-pre-wrap">{this.state.errorInfo.componentStack}</pre>
+                )}
+              </div>
+            )}
           </div >
         </div >
       );

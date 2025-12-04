@@ -4,6 +4,23 @@ export default {
   content: [
     './src/**/*.{js,jsx}',
   ],
+  // Safelist dynamic classes built at runtime (e.g., bg-${color}) so Tailwind
+  // doesn't purge them. These are used in homepage cards and course badges.
+  safelist: [
+    // solids
+    'bg-primary','bg-secondary','bg-warning','bg-success','bg-error',
+    'text-primary','text-secondary','text-warning','text-success','text-error',
+    'border-primary','border-secondary','border-warning','border-success','border-error',
+    // hover/variants used
+    'bg-primary/90','bg-secondary/90','bg-warning/90','bg-success/90','bg-error/90',
+    'border-primary/20','border-secondary/20','border-warning/20','border-success/20','border-error/20',
+    // gradients from/to
+    'from-primary/10','to-primary/5',
+    'from-secondary/10','to-secondary/5',
+    'from-warning/10','to-warning/5',
+    'from-success/10','to-success/5',
+    'from-error/10','to-error/5',
+  ],
   prefix: "",
   theme: {
     container: {

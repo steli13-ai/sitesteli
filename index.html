@@ -10,7 +10,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="description" content="Platformă educațională modernă pentru matematică. Lecții, fișe, cursuri și pregătire pentru examene în limba română." />
-  <link rel="canonical" href="https://matecusucces.ro/" />
+  <!-- Security: Basic CSP meta (prefer server header in production) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://static.rocket.new; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; object-src 'none'; base-uri 'self';" />
+  <!-- Canonical is set per-page via React Helmet (removed global canonical) -->
   <!-- Open Graph -->
   <meta property="og:title" content="Mate cu succes" />
   <meta property="og:description" content="Platformă educațională modernă pentru matematică. Lecții, fișe, cursuri și pregătire pentru examene în limba română." />
@@ -23,6 +25,13 @@
   <meta name="twitter:title" content="Mate cu succes" />
   <meta name="twitter:description" content="Platformă educațională modernă pentru matematică." />
   <meta name="twitter:image" content="/assets/images/logo-512.png" />
+  <!-- Performance: Preload critical CSS & core JS (production only; removed in dev by inline script) -->
+  <link rel="preload" as="style" href="/build/assets/index-37dfBh4t.css" data-prod-only>
+  <link rel="modulepreload" href="/build/assets/react-core-CkmQ8_s-.js" data-prod-only>
+  <link rel="modulepreload" href="/build/assets/index-rFH_Ylxf.js" data-prod-only>
+  <link rel="modulepreload" href="/build/assets/routes-qHpVD8Fq.js" data-prod-only>
+  <!-- Remove preload tags in development to avoid 404 on unhashed assets -->
+  <script type="module">if(!import.meta.env?.PROD){document.querySelectorAll('link[data-prod-only]').forEach(l=>l.remove());}</script>
   
   <meta name="robots" content="index, follow" />
   <link rel="icon" href="/favicon.ico" />

@@ -14,10 +14,10 @@ const ProtectedButton = ({
   variant = 'default',
   ...props 
 }) => {
-  const { user, loading } = useAuth();
+  const { user, loading, handleUnauthorized } = useAuth();
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (loading) return;
     
     const query = new URLSearchParams({ plan: encodeURIComponent(planId || planType) });
@@ -40,8 +40,17 @@ const ProtectedButton = ({
       // Redirect to unified account auth with redirect back to checkout
       navigate(`/account?auth=login&redirect=${encodeURIComponent(checkoutPath)}`);
     } else {
-      // User is authenticated, go to checkout
-      navigate(checkoutPath);
+      // User is authenticated, go to checkout. If navigation/action hits 401 downstream, recover once.
+      try {
+        navigate(checkoutPath);
+      } catch (err) {
+        const recovered = await handleUnauthorized?.();
+        if (recovered) {
+          try { navigate(checkoutPath); } catch {}
+        } else {
+          throw err;
+        }
+      }
     }
   };
 
@@ -62,6 +71,7 @@ const ProtectedButton = ({
   return (
     <Button
       onClick={handleClick}
+      ctaId={props.ctaId || (planId ? `buy_${String(planId)}` : planType ? `buy_${String(planType)}` : 'checkout_start')}
       variant={variant}
       className={className}
       {...props}

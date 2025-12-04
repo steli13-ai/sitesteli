@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Icon from '../AppIcon';
+import { useT } from '@/contexts/I18nContext';
 import { LOGO_URL } from '../../config/publicLinks';
 import Button from './Button';
 import LoginForm from '../auth/LoginForm';
 import SignupForm from '../auth/SignupForm';
 import { useAuth } from '../../contexts/AuthContext';
 import { darkTheme } from '@/config/darkTheme';
+import { routesConfig } from '@/routes/routes.config';
 
 const Header = ({ className = '' }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -76,14 +78,15 @@ const Header = ({ className = '' }) => {
 
   const currentTheme = getPageTheme(location?.pathname);
 
+  const { t, lang, setLang } = useT();
   const navigationItems = [
-    { name: 'Acasă', path: '/homepage', icon: 'Home', theme: getPageTheme('/homepage') },
-    { name: 'Resurse Gratuite', path: '/free-resources', icon: 'BookOpen', theme: getPageTheme('/free-resources') },
-    { name: 'Pregătire Examene', path: '/exam-preparation', icon: 'GraduationCap', theme: getPageTheme('/exam-preparation') },
-    { name: 'Catalog Cursuri', path: '/course-catalog', icon: 'Library', theme: getPageTheme('/course-catalog') },
-    { name: 'Resurse Părinți', path: '/parent-resources', icon: 'Users', theme: getPageTheme('/parent-resources') },
-    { name: 'Contact', path: '/contact', icon: 'MessageCircle', theme: getPageTheme('/contact') },
-    { name: 'Programe Premium', path: '/premium-programs', icon: 'Star', theme: getPageTheme('/premium-programs') }
+    { name: t('nav.home'), path: '/homepage', icon: 'Home', theme: getPageTheme('/homepage') },
+    { name: t('nav.freeResources'), path: '/free-resources', icon: 'BookOpen', theme: getPageTheme('/free-resources') },
+    { name: t('nav.examPreparation'), path: '/exam-preparation', icon: 'GraduationCap', theme: getPageTheme('/exam-preparation') },
+    { name: t('nav.courseCatalog'), path: '/course-catalog', icon: 'Library', theme: getPageTheme('/course-catalog') },
+    { name: t('nav.parentResources'), path: '/parent-resources', icon: 'Users', theme: getPageTheme('/parent-resources') },
+    { name: t('nav.contact'), path: '/contact', icon: 'MessageCircle', theme: getPageTheme('/contact') },
+    { name: t('nav.premiumPrograms'), path: '/premium-programs', icon: 'Star', theme: getPageTheme('/premium-programs') }
   ];
 
   const secondaryItems = [];
@@ -113,6 +116,16 @@ const Header = ({ className = '' }) => {
       setShowTransitionElement(false);
       setSiteNameFlipped(false);
     }, 1200);
+  };
+
+  const prefetchRoute = (path) => {
+    try {
+      const route = routesConfig?.find(r => r.path === path);
+      if (route && typeof route.loader === 'function') {
+        // Fire and forget to warm the chunk
+        route.loader()?.catch(() => {});
+      }
+    } catch {}
   };
 
   const handleAuthAction = () => {
@@ -205,20 +218,16 @@ const Header = ({ className = '' }) => {
                 <button
                   key={item?.path}
                   onClick={() => handlePageNavigation(item?.path)}
+                  onMouseEnter={() => prefetchRoute(item?.path)}
                   aria-label={item?.name}
+                  aria-current={isActivePath(item?.path) ? 'page' : undefined}
                   className={`group relative flex items-center space-x-2 px-5 py-2 rounded-2xl font-body font-medium transition-all duration-300 border min-h-[48px] ${
                     isActivePath(item?.path)
                       ? 'bg-gradient-to-r from-green-500 via-emerald-500 to-teal-500 text-white border-green-400 shadow-lg shadow-green-400/30 scale-[1.05]'
                       : 'bg-gradient-to-r from-background to-background text-text-secondary border-border/10 hover:from-green-50 hover:to-emerald-50 hover:text-foreground hover:border-green-300/40 hover:shadow-[0_4px_16px_rgba(16,185,129,0.25)] hover:scale-105'
                   }`}
                 >
-                  <div className="relative">
-                    <div className={`h-1 ${currentTheme?.color} transition-all duration-500`} />
-                    {/* Page-specific icon overlay */}
-                    <div className="absolute -top-3 left-4 bg-white shadow-sm rounded-full p-1 ring-2 ring-primary/30 flex items-center justify-center w-8 h-8">
-                      <Icon name={(navigationItems.find(n => n.path === location.pathname)?.icon) || 'Compass'} size={18} className="text-primary" />
-                    </div>
-                  </div>
+                  {/* Removed white circular overlay icon */}
                   <Icon name={item?.icon} size={20} className="transition-transform duration-300 group-hover:scale-110" />
                   <span className="relative">
                     {item?.name}
@@ -228,11 +237,12 @@ const Header = ({ className = '' }) => {
               ))}
               <button
                 onClick={toggleTheme}
-                aria-label={darkMode ? 'Comută pe mod luminos' : 'Comută pe mod întunecat'}
+                aria-label={darkMode ? t('actions.toggleLight') : t('actions.toggleDark')}
+                aria-pressed={darkMode}
                 className="group relative flex items-center space-x-2 px-4 py-2 rounded-xl font-body font-medium transition-all duration-300 border min-h-[44px] bg-background/40 text-text-secondary hover:bg-background/70 hover:text-foreground"
               >
                 <Icon name={darkMode ? 'Sun' : 'Moon'} size={20} className="transition-transform duration-300 group-hover:scale-110" />
-                <span>{darkMode ? 'Luminos' : 'Întunecat'}</span>
+                <span>{darkMode ? t('actions.toggleLight') : t('actions.toggleDark')}</span>
               </button>
             </nav>
 
@@ -268,7 +278,7 @@ const Header = ({ className = '' }) => {
                     size="sm"
                     className="font-cta"
                   >
-                    Conectare
+                    {t('actions.login')}
                   </Button>
                   <Button 
                     onClick={() => setShowSignupForm(true)}
@@ -276,7 +286,7 @@ const Header = ({ className = '' }) => {
                     size="sm"
                     className="bg-warning text-warning-foreground hover:bg-warning/90 font-cta font-semibold"
                   >
-                    Începe Gratuit
+                    {t('actions.startFree')}
                   </Button>
                 </>
               )}
@@ -318,11 +328,13 @@ const Header = ({ className = '' }) => {
                           handlePageNavigation(item?.path);
                           setIsMobileMenuOpen(false);
                         }}
+                        onMouseEnter={() => prefetchRoute(item?.path)}
                         className={`flex items-center space-x-3 px-4 py-3 rounded-lg font-body font-medium transition-all duration-200 w-full text-left min-h-[44px] ${
                           isActivePath(item?.path)
                             ? `${currentTheme?.color} text-white`
                             : `text-text-secondary ${item?.theme?.hoverClass}`
                         }`}
+                        aria-current={isActivePath(item?.path) ? 'page' : undefined}
                       >
                         <Icon name={item?.icon} size={20} />
                         <span>{item?.name}</span>
@@ -396,7 +408,7 @@ const Header = ({ className = '' }) => {
         </div>
         
         {/* Mathematical Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
           <div className="absolute top-4 right-20 text-primary/10 text-2xl font-bold math-symbol-float">
             π
           </div>
@@ -409,16 +421,16 @@ const Header = ({ className = '' }) => {
         </div>
 
         {/* Pastel background shapes */}
-        <div className="pastel-shapes">
-          <div className="floating-shape w-8 h-8 bg-blue-200 top-4 left-1/4"></div>
-          <div className="floating-shape w-6 h-6 bg-pink-200 top-12 right-1/3"></div>
+        <div className="pastel-shapes" aria-hidden="true">
+          <div className="floating-shape w-8 h-8 bg-blue-200 top-4 left-1/4" />
+          <div className="floating-shape w-6 h-6 bg-pink-200 top-12 right-1/3" />
           <div className="floating-star top-8 left-1/2">
-            <svg className="w-5 h-5 text-yellow-200" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-yellow-200" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" />
             </svg>
           </div>
-          <div className="floating-cube w-7 h-7 bg-green-200 top-6 right-1/4 rounded"></div>
-          <div className="floating-shape w-5 h-5 bg-purple-200 top-10 left-1/6"></div>
+          <div className="floating-cube w-7 h-7 bg-green-200 top-6 right-1/4 rounded" />
+          <div className="floating-shape w-5 h-5 bg-purple-200 top-10 left-1/6" />
         </div>
       </header>
       {/* Auth Modals */}

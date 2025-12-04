@@ -16,7 +16,7 @@ if (supabaseUrl && supabaseAnonKey) {
   // Preview-safe mock to avoid crashing the app when env is missing (e.g., local preview)
   // Provides minimal auth and query interfaces returning nulls/errors gracefully.
   // eslint-disable-next-line no-console
-  console.warn('[Supabase] Missing VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY. Running in preview mode with auth disabled.');
+  if (import.meta.env?.DEV) console.warn('[Supabase] Missing VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY. Running in preview mode with auth disabled.');
 
   const asyncError = (message) => Promise.resolve({ data: null, error: { message } });
 
@@ -49,6 +49,14 @@ if (supabaseUrl && supabaseAnonKey) {
       signOut: async () => ({ error: null }),
     },
     from: () => mockFrom(),
+    // Minimal storage mock so pages using uploads do not crash in preview mode
+    storage: {
+      from: () => ({
+        upload: async (_path, _file, _opts) => ({ data: { path: 'mock/path' }, error: null }),
+        getPublicUrl: (_path) => ({ data: { publicUrl: 'https://example.com/mock-upload' } }),
+        createSignedUrl: async (_path, _seconds) => ({ data: { signedUrl: 'https://example.com/mock-signed-url' }, error: null }),
+      }),
+    },
   };
 }
 

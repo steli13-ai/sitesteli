@@ -75,7 +75,8 @@ const ContactForm = ({ onSubmitSuccess }) => {
       }
       
     } catch (error) {
-      console.error('Form submission error:', error);
+      // Centralized error logging
+      import('@/utils/logger').then(m => m.logger.error('Form submission error', error));
     } finally {
       setIsSubmitting(false);
     }

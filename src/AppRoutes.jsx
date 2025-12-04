@@ -10,6 +10,8 @@ import DefaultLayout from '@/layouts/DefaultLayout';
 import AuthLayout from '@/layouts/AuthLayout';
 import EmptyLayout from '@/layouts/EmptyLayout';
 import SkeletonPage from '@/components/ui/SkeletonPage';
+import RoutePrefetcher from '@/components/RoutePrefetcher';
+import analytics from '@/utils/analytics';
 
 // Mitigate occasional PWA chunk cache mismatches by reloading once on chunk load failure
 function lazyWithRetry(loader) {
@@ -34,6 +36,7 @@ const AppRoutes = () => {
       <LazyAuthProvider>
         <ErrorBoundary>
           <ScrollToTop />
+          <RoutePrefetcher />
           <Suspense fallback={<SkeletonPage />}>
             <RouterRoutes>
               {routesConfig.map(({ path, layout, protected: isProtected, loader }, idx) => {
@@ -42,7 +45,9 @@ const AppRoutes = () => {
                 const element = (
                   <Layout>
                     <ErrorBoundary>
-                      <Lazy />
+                      <RouteEngagement routePath={path}>
+                        <Lazy />
+                      </RouteEngagement>
                     </ErrorBoundary>
                   </Layout>
                 );
@@ -62,8 +67,17 @@ const AppRoutes = () => {
   );
 };
 
+function RouteEngagement({ routePath, children }) {
+  useEffect(() => {
+    const id = String(routePath || '').replace(/^\//, '').replace(/\W+/g, '_') || 'root';
+    analytics.routeView(id);
+  }, [routePath]);
+  return children;
+}
+
 function LazyAuthProvider({ children }) {
   const [Provider, setProvider] = useState(null);
+  
   useEffect(() => {
     let cancelled = false;
     const isProtectedPath = () => {
@@ -74,15 +88,24 @@ function LazyAuthProvider({ children }) {
     };
     const loader = () => import('./contexts/AuthContext').then(mod => {
       if (!cancelled) setProvider(() => mod.AuthProvider);
-    }).catch(() => {});
+    }).catch(err => {
+      import('@/utils/logger').then(m => m.logger.error('Failed to load AuthContext', err));
+    });
+    
     if (isProtectedPath()) {
       loader();
     } else {
-      (window.requestIdleCallback || setTimeout)(() => startTransition(loader), 50);
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(() => startTransition(loader));
+      } else {
+        setTimeout(() => startTransition(loader), 50);
+      }
     }
     return () => { cancelled = true; };
   }, []);
-  return Provider ? <Provider>{children}</Provider> : children;
+  
+  if (!Provider) return <>{children}</>;
+  return <Provider>{children}</Provider>;
 }
 
 export default AppRoutes;

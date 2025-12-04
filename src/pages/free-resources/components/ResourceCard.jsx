@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
 import Button from '../../../components/ui/Button';
+import { sanitizeHtml } from '@/utils/sanitize';
 
 const ResourceCard = ({ resource, onDownload, onPreview }) => {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -98,9 +99,7 @@ const ResourceCard = ({ resource, onDownload, onPreview }) => {
         </h3>
 
         {/* Description */}
-        <p className="text-sm text-text-secondary mb-4 line-clamp-3">
-          {resource?.description}
-        </p>
+        <p className="text-sm text-text-secondary mb-4 line-clamp-3" dangerouslySetInnerHTML={{ __html: sanitizeHtml(resource?.description || '') }} />
 
         {/* Stats */}
         <div className="flex items-center justify-between mb-4">
