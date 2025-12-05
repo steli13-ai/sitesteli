@@ -3,7 +3,6 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve as pathResolve } from 'node:path';
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
-import tagger from "@dhiwise/component-tagger";
 import { VitePWA } from 'vite-plugin-pwa';
 import viteCompression from 'vite-plugin-compression';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -34,14 +33,12 @@ export default defineConfig({
   plugins: [
     tsconfigPaths(),
     react(),
-    // Inline a slice of critical CSS into build/index.html to improve FCP/LCP
-    criticalCssInline({ outDir: 'build', maxInlineBytes: 8192 }),
+    // Inline critical CSS only when explicitly enabled
+    ...(process.env.VITE_INLINE_CRITICAL_CSS === '1' ? [criticalCssInline({ outDir: 'build', maxInlineBytes: 8192 })] : []),
     viteCompression({ algorithm: 'gzip' }),
     viteCompression({ algorithm: 'brotliCompress', ext: '.br' }),
-    // Enable the Dhiwise tagger only when explicitly requested.
-    // It adds debug circles/overlays that can distort the UI in dev.
-    ...(process.env.VITE_TAGGER === '1' ? [tagger()] : []),
-    VitePWA({
+    // Remove debug tagger to avoid external script and UI overlays
+    ...(process.env.VITE_DISABLE_PWA === '1' ? [] : [VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
       manifest: {
@@ -110,7 +107,7 @@ export default defineConfig({
       devOptions: {
         enabled: false,
       },
-    }),
+    })]),
     // Bundle analyzer (enable by setting VITE_ANALYZE=1)
     (process.env.VITE_ANALYZE === '1' || process.env.VITE_ANALYZE === 'true') &&
       visualizer({

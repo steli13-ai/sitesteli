@@ -10,8 +10,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="description" content="Platformă educațională modernă pentru matematică. Lecții, fișe, cursuri și pregătire pentru examene în limba română." />
-  <!-- Security: Basic CSP meta (prefer server header in production) -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://static.rocket.new; img-src 'self' https: data:; style-src 'self' 'unsafe-inline'; frame-ancestors 'none'; object-src 'none'; base-uri 'self';" />
+  <!-- Security: Prefer CSP via server headers in production -->
   <!-- Canonical is set per-page via React Helmet (removed global canonical) -->
   <!-- Open Graph -->
   <meta property="og:title" content="Mate cu succes" />
@@ -25,13 +24,7 @@
   <meta name="twitter:title" content="Mate cu succes" />
   <meta name="twitter:description" content="Platformă educațională modernă pentru matematică." />
   <meta name="twitter:image" content="/assets/images/logo-512.png" />
-  <!-- Performance: Preload critical CSS & core JS (production only; removed in dev by inline script) -->
-  <link rel="preload" as="style" href="/build/assets/index-37dfBh4t.css" data-prod-only>
-  <link rel="modulepreload" href="/build/assets/react-core-CkmQ8_s-.js" data-prod-only>
-  <link rel="modulepreload" href="/build/assets/index-rFH_Ylxf.js" data-prod-only>
-  <link rel="modulepreload" href="/build/assets/routes-qHpVD8Fq.js" data-prod-only>
-  <!-- Remove preload tags in development to avoid 404 on unhashed assets -->
-  <script type="module">if(!import.meta.env?.PROD){document.querySelectorAll('link[data-prod-only]').forEach(l=>l.remove());}</script>
+  <!-- Preloads removed to avoid hashed-path mismatches in production -->
   
   <meta name="robots" content="index, follow" />
   <link rel="icon" href="/favicon.ico" />
@@ -47,37 +40,12 @@
   <!-- Optional: set this to your Supabase project domain for improved performance -->
   <!-- <link rel="preconnect" href="https://YOUR-PROJECT.supabase.co" crossorigin /> -->
   
-  <!-- Defer non-critical third-party scripts to idle time -->
-  <script>
-    (function loadNonCritical() {
-      var load = function () {
-        try {
-          var s1 = document.createElement('script');
-          s1.type = 'module';
-          s1.src = 'https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fmath4all5439back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.9';
-          document.head.appendChild(s1);
-
-          var s2 = document.createElement('script');
-          s2.type = 'module';
-          s2.src = 'https://static.rocket.new/rocket-shot.js?v=0.0.1';
-          document.head.appendChild(s2);
-        } catch (e) {
-          // eslint-disable-next-line no-console
-          console.warn('Deferred script load failed', e);
-        }
-      };
-      if (window.requestIdleCallback) {
-        window.requestIdleCallback(load);
-      } else {
-        setTimeout(load, 200);
-      }
-    })();
-  </script>
+  <!-- Removed third-party debug scripts to avoid CSP violations and UI drift -->
   </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div class="dhiwise-code" id="root"></div>
+  <div id="root"></div>
   <script type="module" src="/src/index.jsx"></script>
 </body>
 

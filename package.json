@@ -2,30 +2,7 @@
   "name": "math4all",
   "version": "0.1.0",
   "private": true,
-  "rocketCritical": {
-    "dependencies": [
-      "@dhiwise/component-tagger",
-      "react",
-      "react-dom",
-      "@reduxjs/toolkit",
-      "redux",
-      "react-router-dom"
-    ],
-    "devDependencies": [
-      "@vitejs/plugin-react",
-      "vite",
-      "vite-tsconfig-paths",
-      "tailwindcss",
-      "autoprefixer",
-      "postcss"
-    ],
-    "scripts": [
-      "start",
-      "build",
-      "serve"
-    ],
-    "warning": "🚨 CRITICAL: DO NOT REMOVE OR MODIFY ABOVE DEPENDENCIES - Required for app functionality"
-  },
+ 
   "dependencies": {
     "@dhiwise/component-tagger": "^1.0.10",
     "@radix-ui/react-slot": "^1.2.3",
@@ -59,7 +36,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "npm run images:optimize && vite build && npm run critical:css",
+    "build": "npm run images:optimize && vite build",
     "critical:css": "node scripts/inject-critical-css.js",
     "build:analyze": "set VITE_ANALYZE=1&& vite build --sourcemap",
     "build:prod": "vite build && node scripts/verify-build.js",
